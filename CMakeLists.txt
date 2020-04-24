@@ -1,0 +1,1 @@
+project(applications_for_opennars)

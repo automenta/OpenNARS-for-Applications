@@ -24,6 +24,7 @@
 
 #include "Truth.h"
 
+const double TRUTH_EPSILON = 0.01;
 double TRUTH_EVIDENTAL_HORIZON = TRUTH_EVIDENTAL_HORIZON_INITIAL;
 double TRUTH_PROJECTION_DECAY = TRUTH_PROJECTION_DECAY_INITIAL;
 #define TruthValues(v1,v2, f1,c1, f2,c2) double f1 = v1.frequency; double f2 = v2.frequency; double c1 = v1.confidence; double c2 = v2.confidence;
@@ -161,5 +162,6 @@ Truth Truth_StructuralAbduction(Truth v1, Truth v2)
 
 bool Truth_Equal(Truth *v1, Truth *v2)
 {
-    return v1->confidence == v2->confidence && v1->frequency == v2->frequency;
+    //return v1->confidence == v2->confidence && v1->frequency == v2->frequency;
+    return abs(v1->frequency - v2->frequency < TRUTH_EPSILON) && abs(v1->confidence - v2->confidence < TRUTH_EPSILON);
 }

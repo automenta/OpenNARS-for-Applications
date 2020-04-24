@@ -3,3 +3,5 @@ ANSA.exe
 a.out
 NAR
 src/RuleTable.c
+.idea
+cmake-build*

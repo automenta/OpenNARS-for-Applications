@@ -41,13 +41,17 @@ void FIFO_Test()
         assert(FIFO_SIZE-i == fifo.array[0][i].stamp.evidentalBase[0], "Item at FIFO position has to be right");
     }
     //now see whether a new item is revised with the correct one:
-    int i=3; //revise with item 10, which has occurrence time 10
-    int newbase = FIFO_SIZE*2+1;
-    Event event2 = { .term = Narsese_AtomicTerm("test"), 
-                     .type = EVENT_TYPE_BELIEF, 
-                     .truth = { .frequency = 1.0, .confidence = 0.9 },
-                     .stamp = { .evidentalBase = { newbase } }, 
-                     .occurrenceTime = i*10+3 };
+
+
+    int item = 3; //revise with item 10, which has occurrence time 10
+    int newbase = FIFO_SIZE * 2 + 1;
+    Event event2 = {.term = Narsese_AtomicTerm("test"),
+            .type = EVENT_TYPE_BELIEF,
+            .truth = {.frequency = 1.0, .confidence = 0.9},
+            .stamp = {.evidentalBase = {newbase}},
+            .occurrenceTime = item * 10 + 3};
+
+
     FIFO fifo2 = {0};
     for(int i=0; i<FIFO_SIZE*2; i++)
     {

@@ -154,7 +154,7 @@ Decision Decision_BestCandidate(Concept *goalconcept, Event *goal, long currentT
                             if(subs2.success)
                             {
                                 Implication specific_imp = imp; //can only be completely specific
-                                bool success;
+
                                 specific_imp.term = Variable_ApplySubstitute(specific_imp.term, subs2, &success);
                                 if(success && !Variable_hasVariable(&specific_imp.term, true, true, true))
                                 {

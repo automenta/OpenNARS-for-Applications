@@ -76,7 +76,7 @@ void HashTable_Test()
     VMItem HTtest2_storage[ATOMS_MAX];
     VMItem* HTtest2_HT[ATOMS_MAX];
     HashTable_INIT(&HTtest2, HTtest2_storage, HTtest2_storageptrs, HTtest2_HT, ATOMIC_TERM_LEN_MAX, (Equal) Narsese_StringEqual, (Hash) Narsese_StringHash);
-    char *testname = "test";
+    const char *testname = "test";
     char blockname[ATOMIC_TERM_LEN_MAX] = {0};
     strncpy(blockname, testname, ATOMIC_TERM_LEN_MAX-1);
     HashTable_Set(&HTtest2, blockname, (void*) 42);

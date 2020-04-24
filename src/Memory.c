@@ -319,8 +319,8 @@ void Memory_ProcessNewBeliefEvent(Event *event, long currentTime, double priorit
                                         if(success)
                                         {
                                             cpost->usage = Usage_use(cpost->usage, currentTime, false);
-                                            Event predicted = Inference_BeliefDeduction(event, &updated_imp);
-                                            Memory_AddEvent(&predicted, currentTime, priority * Truth_Expectation(imp->truth) * Truth_Expectation(predicted.truth), 0, false, true, false, false, true);
+                                            Event predictedDeduction = Inference_BeliefDeduction(event, &updated_imp);
+                                            Memory_AddEvent(&predictedDeduction, currentTime, priority * Truth_Expectation(imp->truth) * Truth_Expectation(predictedDeduction.truth), 0, false, true, false, false, true);
                                         }
                                     }
                                     break;

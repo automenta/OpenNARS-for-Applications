@@ -25,7 +25,7 @@
 void Narsese_Test()
 {
     puts(">>Narsese test start");
-    char* narsese = "<<$sth --> (&,[furry,meowing],animal)> =/> <$sth --> [good]>>";
+    const char *narsese = "<<$sth --> (&,[furry,meowing],animal)> =/> <$sth --> [good]>>";
     printf("Narsese: %s\n", narsese);
     char* preprocessed = Narsese_Expand(narsese);
     printf("Preprocessed: %s\n", preprocessed);
