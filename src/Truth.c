@@ -163,5 +163,5 @@ Truth Truth_StructuralAbduction(Truth v1, Truth v2)
 bool Truth_Equal(Truth *v1, Truth *v2)
 {
     //return v1->confidence == v2->confidence && v1->frequency == v2->frequency;
-    return abs(v1->frequency - v2->frequency) < TRUTH_EPSILON && abs(v1->confidence - v2->confidence) < TRUTH_EPSILON;
+    return fabs(v1->frequency - v2->frequency) < TRUTH_EPSILON && fabs(v1->confidence - v2->confidence) < TRUTH_EPSILON;
 }

@@ -1,10 +1,7 @@
-import thread 
-from subprocess import Popen, PIPE, STDOUT
+import thread
 import subprocess
 import re,os
 import socket
-import sys
-import time
 import itertools
 
 server = "irc.freenode.net"

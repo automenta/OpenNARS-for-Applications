@@ -29,13 +29,14 @@ void Event_SetTerm(Event *event, Term term)
     event->term = term;
 }
 
-long base = 1;
+volatile long base = 1;
+
 Event Event_InputEvent(Term term, char type, Truth truth, long currentTime)
 {
     return (Event) { .term = term,
                      .type = type, 
                      .truth = truth, 
-                     .stamp = (Stamp) { .evidentalBase = { base++ } }, 
+                     .stamp = { .evidentalBase = { base++ } },  //TODO atomic getAndIncrement
                      .occurrenceTime = currentTime,
                      .creationTime = currentTime };
 }

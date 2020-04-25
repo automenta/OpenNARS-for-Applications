@@ -6,11 +6,9 @@
 import sys
 import thread
 import time
-from subprocess import Popen, PIPE, STDOUT
 import subprocess
 import nltk as nltk
-from nltk import sent_tokenize, word_tokenize
-from nltk.corpus import stopwords
+from nltk import word_tokenize
 from nltk import WordNetLemmatizer
 from nltk.corpus import wordnet
 

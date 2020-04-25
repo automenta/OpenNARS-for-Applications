@@ -1,6 +1,6 @@
 
-CC=gcc ; ExtraFlags=""
-#CC=clang ; ExtraFlags="-Wno-dollar-in-identifier-extension"
+#CC=gcc ; ExtraFlags="-fopenmp"
+CC=clang ; ExtraFlags="-Wno-dollar-in-identifier-extension -fopenmp=libomp"
 
 BaseFlags="-pthread -lpthread -D_POSIX_C_SOURCE=199506L -pedantic -std=c99 -g3 -O3 -lm -oNAR"
 

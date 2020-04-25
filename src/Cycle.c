@@ -56,7 +56,8 @@ static Decision Cycle_ProcessSensorimotorEvent(Event *e, long currentTime)
     IN_DEBUG( puts("Event was selected:"); Event_Print(e); )
     //determine the concept it is related to
     bool e_hasVariable = Variable_hasVariable(&e->term, true, true, true);
-    #pragma omp parallel for
+
+    //#pragma omp parallel for
     for(int concept_i=0; concept_i<concepts.itemsAmount; concept_i++)
     {
         Event ecp = *e;
@@ -119,6 +120,8 @@ static Decision Cycle_PropagateSubgoals(long currentTime)
 {
     Decision best_decision = {0};
     //pass goal spikes on to the next
+
+    //#pragma omp parallel for
     for(int i=0; i<goalsSelectedCnt; i++)
     {
         Event *goal = &selectedGoals[i];
@@ -128,7 +131,6 @@ static Decision Cycle_PropagateSubgoals(long currentTime)
         {
             best_decision = decision;
         }
-        #pragma omp parallel for
         for(int concept_i=0; concept_i<concepts.itemsAmount; concept_i++)
         {
             Concept *c = concepts.items[concept_i].address;
@@ -303,9 +305,17 @@ void Cycle_ProcessInputGoalEvents(long currentTime)
 
 void Cycle_Inference(long currentTime)
 {
+    #if STAGE==1
+        return;
+    #endif
     //Inferences
-#if STAGE==2
-    for(int i=0; i<beliefsSelectedCnt; i++)
+//#if STAGE==2
+
+
+    int threads = 1; //omp_get_num_threads();
+
+    //#pragma omp parallel for
+    for(int i=0; i<beliefsSelectedCnt * threads; i++)
     {
         long countConceptsMatched = 0;
         bool fired[CONCEPTS_MAX] = {0}; //whether a concept already fired
@@ -333,7 +343,6 @@ void Cycle_Inference(long currentTime)
             RuleTable_Apply(e->term, dummy_term, e->truth, dummy_truth, e->occurrenceTime, e->stamp, currentTime, priority, 1, false, NULL, 0); 
             IN_DEBUG( puts("Event was selected:"); Event_Print(e); )
             //Main inference loop:
-            #pragma omp parallel for
             for(int j=0; j<concepts.itemsAmount; j++)
             {
                 Concept *c = concepts.items[j].address;
@@ -389,7 +398,7 @@ void Cycle_Inference(long currentTime)
                     Event future_belief = c->predicted_belief;
                     //but if there is a predicted one in the event's window, use this one
                     if(e->occurrenceTime != OCCURRENCE_ETERNAL && future_belief.type != EVENT_TYPE_DELETED &&
-                       abs(e->occurrenceTime - future_belief.occurrenceTime) < EVENT_BELIEF_DISTANCE) //take event as belief if it's stronger
+                       labs(e->occurrenceTime - future_belief.occurrenceTime) < EVENT_BELIEF_DISTANCE) //take event as belief if it's stronger
                     {
                         future_belief.truth = Truth_Projection(future_belief.truth, future_belief.occurrenceTime, e->occurrenceTime);
                         future_belief.occurrenceTime = e->occurrenceTime;
@@ -398,7 +407,7 @@ void Cycle_Inference(long currentTime)
                     //unless there is an actual belief which falls into the event's window
                     Event project_belief = c->belief_spike;
                     if(e->occurrenceTime != OCCURRENCE_ETERNAL && project_belief.type != EVENT_TYPE_DELETED &&
-                       abs(e->occurrenceTime - project_belief.occurrenceTime) < EVENT_BELIEF_DISTANCE) //take event as belief if it's stronger
+                       labs(e->occurrenceTime - project_belief.occurrenceTime) < EVENT_BELIEF_DISTANCE) //take event as belief if it's stronger
                     {
                         project_belief.truth = Truth_Projection(project_belief.truth, project_belief.occurrenceTime, e->occurrenceTime);
                         project_belief.occurrenceTime = e->occurrenceTime;
@@ -453,7 +462,7 @@ void Cycle_Inference(long currentTime)
             }
         }
     }
-#endif
+//#endif
 }
 
 void Cycle_RelativeForgetting(long currentTime)

@@ -1,6 +1,7 @@
-from subprocess import PIPE, run
-import subprocess
 import glob
+import subprocess
+from subprocess import PIPE, run
+
 
 #NAR C tests & metrics, only print fully output on failure, always print the metrics:
 def ctests(Example, Args, DoneAfterMetric):
